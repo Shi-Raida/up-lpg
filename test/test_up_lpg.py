@@ -58,12 +58,12 @@ class LPGtest(TestCase):
         problem.environment.factory.add_engine(name = "lpg-anytime", module_name = "up_lpg.lpg_planner", class_name = "LPGAnytimeEngine")
 
         with AnytimePlanner(name='lpg-anytime') as planner:
-                solutions = []
-                for p in planner.get_solutions(problem,4):
-                    if p.plan is not None:
-                        solutions.append(p.plan)
-                        self.assertEqual(p.status.name, 'INTERMEDIATE')
+                solutions = list(planner.get_solutions(problem, 4))
                 self.assertTrue(len(solutions) >= 1)
+                for s in solutions[:-1]:
+                    if s.plan is not None:
+                        self.assertEqual(s.status.name, 'INTERMEDIATE')
+                self.assertEqual(solutions[-1].status.name, 'SOLVED_SATISFICING')
 
 
     def test_plan_repair(self):
