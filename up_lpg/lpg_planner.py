@@ -68,7 +68,7 @@ class LPGEngine(PDDLPlanner):
             for line in plan.readlines():
                 if re.match(r'^\s*(;.*)?$', line):
                     continue
-                res = re.match(r'^[\d.]+:\s*\(\s*([\w?-]+)((\s+[\w?-]+)*)\s*\)\s*\[.*\]$', line.lower().split(' ;;')[0])
+                res = re.match(r'^[\d.]+:\s*\(\s*([\w?-]+)((\s+[\w?-]+)*)\s*\)\s*\[.*\]', line.lower().split(' ;;')[0])
                 if res:
                     action = get_item_named(res.group(1))
                     parameters = []
@@ -77,7 +77,7 @@ class LPGEngine(PDDLPlanner):
                         parameters.append(problem.environment.expression_manager.ObjectExp(p_correct))
                     if tt:
                         start = re.match(r'^([\d.]+):', line).group(1)
-                        dur = re.match(r'^[\d.]+:\s*\(\s*[\w?-]+((\s+[\w?-]+)*)\s*\)\s*\[([\d.]+)\]$', line).group(3)
+                        dur = re.match(r'^[\d.]+:\s*\(\s*[\w?-]+((\s+[\w?-]+)*)\s*\)\s*\[([\d.]+)\]', line).group(3)
                         actions.append((Fraction(start), up.plans.ActionInstance(action, tuple(parameters)), Fraction(dur)))
                     else:
                         actions.append(up.plans.ActionInstance(action, tuple(parameters)))
