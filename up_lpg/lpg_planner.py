@@ -186,9 +186,8 @@ class LPGAnytimeEngine(LPGEngine, PDDLAnytimePlanner):
                     plan_file_match = re.match(r'^\s*Plan file:\s*(.*?)\.SOL', l)
                     if plan_file_match:
                         plan_file = plan_file_match.group(1) + '.SOL'
-                        plan_str = Path(plan_file).read_text(encoding='utf-8')
-                        plan = self._engine._plan_from_str(
-                            problem, plan_str, self._engine._writer.get_item_named
+                        plan = self._engine._plan_from_file(
+                            problem, plan_file, self._engine._writer.get_item_named
                         )
                         res = PlanGenerationResult(
                             PlanGenerationResultStatus.INTERMEDIATE,
